@@ -8,6 +8,10 @@ var boxWidth = box.offsetWidth;
 var targetX = Math.random() * boxWidth;
 var targetY = Math.random() * boxHeight;
 
+if (targetX+40 > boxWidth) targetX = boxWidth - 40;
+if (targetY+40 > boxHeight) targetY = boxHeight - 40;
+
+
 var targetDiv = document.createElement("div");
 targetDiv.style.width = "50px";
 targetDiv.style.height = "50px";
@@ -22,8 +26,19 @@ var recalc = function(e) {
 	console.log("recalc");
 	boxHeight = box.offsetHeight;
 	boxWidth = box.offsetWidth;
-	targetX = boxWidth / 2;
-	targetY = boxHeight / 2;
+	
+	randomize();
+};
+
+var randomize = function() {
+	targetX = Math.random() * boxWidth;
+	targetY = Math.random() * boxHeight;
+	
+	if (targetX+40 > boxWidth) targetX = boxWidth - 40;
+	if (targetY+40 > boxHeight) targetY = boxHeight - 40;
+
+	targetDiv.style.left = targetX+"px";
+	targetDiv.style.top = targetY+"px";
 };
 
 console.log( "box height: " + boxHeight );
@@ -39,13 +54,14 @@ var maxDist = distance(boxHeight, boxWidth, 0, 0);
 var findIt = function(e) {
 	var scale = 100 -
 		(distance(targetX, targetY, e.clientX, e.clientY)/maxDist)*100;
-	console.log(scale);	
+	
 	box.style.backgroundColor = "hsl(" + 130 + ", " + "43%" + ", " + scale+ "%)";
-	//alert("You found the cow!");
 };
 
 var found = function(e) {
 	alert("Moo!");
+	
+	randomize();
 };
 
 /*
